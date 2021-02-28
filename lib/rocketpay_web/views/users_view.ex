@@ -1,10 +1,25 @@
 defmodule RocketpayWeb.UsersView do
-  @created_fields [:id, :nickname, :name]
+  alias Rocketpay.{Account, User}
 
-  def render("create.json", %{user: user}) do
+  def render("create.json", %{
+        user: %User{
+          account: %Account{id: account_id, balance: balance},
+          id: id,
+          name: name,
+          nickname: nickname
+        }
+      }) do
     %{
       message: "User created",
-      user: Map.take(user, @created_fields)
+      user: %{
+        id: id,
+        name: name,
+        nickname: nickname,
+        account: %{
+          id: account_id,
+          balance: balance
+        }
+      }
     }
   end
 end
